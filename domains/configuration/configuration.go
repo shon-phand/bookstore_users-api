@@ -1,4 +1,4 @@
-package domains
+package configuration
 
 type Config struct {
 
