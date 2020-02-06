@@ -1,7 +1,9 @@
 package users
 
-import "github.com/shon-phand/bookstore_users-api/domains/errors"
-
+import (
+	"github.com/shon-phand/bookstore_users-api/domains/errors"
+	"github.com/shon-phand/bookstore_users-api/utils/date_utils"
+)
 var (
 	UsersDB = make(map[int64]*User)
 )
@@ -27,6 +29,7 @@ func (user *User) Save() *errors.RestErr {
 		}
 		return errors.StatusBadRequestError("User-ID already exist")
 	}
+	user.CreationDate = date_utils.GetNowString()
 	UsersDB[user.ID] = user
 	return nil
 }
