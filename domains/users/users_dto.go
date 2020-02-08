@@ -1,35 +1,27 @@
 package users
 
 import (
+	"strings"
+
 	"github.com/shon-phand/bookstore_users-api/domains/errors"
-	"github.com/shon-phand/bookstore_users-api/utils/date_utils"
-)
-var (
-	UsersDB = make(map[int64]*User)
 )
 
-func (user *User) Get() *errors.RestErr {
-	result := UsersDB[user.ID]
-	if result != nil {
-		user.ID = result.ID
-		user.FirstName = result.FirstName
-		user.LastName = result.LastName
-		user.Email = result.Email
-
-		return nil
-	}
-	return errors.StatusNotFoundError("user-id not found")
+type User struct {
+	ID           int64  `json:"id"`
+	FirstName    string `json:"first_name"`
+	LastName     string `json:"last_name"`
+	Email        string `json:"email"`
+	CreationDate string `json:"date_created"`
 }
 
-func (user *User) Save() *errors.RestErr {
-	current := UsersDB[user.ID]
-	if current != nil {
-		if user.Email == current.Email {
-			return errors.StatusBadRequestError("Email  is already registered")
-		}
-		return errors.StatusBadRequestError("User-ID already exist")
+func (user *User) ValidateEmail() *errors.RestErr {
+
+	user.Email = strings.TrimSpace(strings.ToLower(user.Email))
+
+	if user.Email == "" {
+		return errors.StatusBadRequestError("Invalid email address")
 	}
-	user.CreationDate = date_utils.GetNowString()
-	UsersDB[user.ID] = user
+
 	return nil
+
 }
