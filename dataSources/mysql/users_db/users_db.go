@@ -16,7 +16,7 @@ func init() {
 
 	dataSoueceName := fmt.Sprintf("%s:%s@tcp(%s)/%s",
 		"root",
-		"Shon@2544",
+		"mypass",
 		"127.0.0.1:3306",
 		"bookstore_users",
 	)
