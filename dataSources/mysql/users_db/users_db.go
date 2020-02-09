@@ -14,13 +14,13 @@ var (
 
 func init() {
 
-	dataSoueceName := fmt.Sprintf("%s:%s@tcp(%s)/%s",
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s",
 		"root",
 		"mypass",
 		"127.0.0.1:3306",
 		"bookstore_users",
 	)
-	Client, err := sql.Open("mysql", dataSoueceName)
+	Client, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		panic(err)
 	}
