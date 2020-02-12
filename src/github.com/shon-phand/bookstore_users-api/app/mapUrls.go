@@ -7,4 +7,6 @@ func mapUrls() {
 
 	r.GET("/users/:user_id", user.GetUser())
 	r.POST("/users", user.CreateUser())
+	r.PUT("/users/:user_id", user.UpdateUser())
+	r.PATCH("/users/:user_id", user.UpdateUser())
 }

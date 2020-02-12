@@ -2,6 +2,7 @@ package user
 
 import (
 	//"fmt"
+
 	"net/http"
 	"strconv"
 
@@ -40,6 +41,7 @@ func GetUser() gin.HandlerFunc {
 func CreateUser() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
+
 		var user users.User
 		err := c.ShouldBindJSON(&user)
 		//fmt.Println("json binded")
@@ -60,5 +62,37 @@ func CreateUser() gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusCreated, result)
+	}
+}
+
+func UpdateUser() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
+		if userErr != nil {
+			err := errors.StatusBadRequestError("userID should be number value")
+			c.JSON(err.Status, err)
+			return
+		}
+
+		var user users.User
+		err := c.ShouldBindJSON(&user)
+		//fmt.Println("json binded")
+		if err != nil {
+
+			resterr := errors.StatusBadRequestError("invalid request json")
+			c.JSON(resterr.Status, resterr.Message)
+			return
+		}
+		user.ID = userId
+
+		isPartial := c.Request.Method == http.MethodPatch
+
+		result, updateErr := userService.UpdateUser(isPartial, user)
+		if updateErr != nil {
+			c.JSON(updateErr.Status, updateErr)
+			return
+		}
+		c.JSON(http.StatusOK, result)
 	}
 }
