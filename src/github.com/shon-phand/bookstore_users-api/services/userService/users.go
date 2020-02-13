@@ -20,6 +20,7 @@ func CreateUser(user users.User) (*users.User, *errors.RestErr) {
 	if err := user.Validate(); err != nil {
 		return nil, err
 	}
+	user.Status = "active"
 	if err := user.Save(); err != nil {
 		return nil, err
 	}
@@ -67,4 +68,14 @@ func DeleteUser(user users.User) (*users.User, *errors.RestErr) {
 		return nil, err
 	}
 	return current, nil
+}
+
+func Search(status string) ([]users.User, *errors.RestErr) {
+
+	dao := &users.User{}
+	data, err := dao.FindByStatus(status)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }

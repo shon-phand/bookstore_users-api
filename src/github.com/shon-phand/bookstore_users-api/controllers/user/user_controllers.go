@@ -128,3 +128,17 @@ func DeleteUser() gin.HandlerFunc {
 		})
 	}
 }
+
+func Search() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		status := c.Query("status")
+
+		data, err := userService.Search(status)
+
+		if err != nil {
+			c.JSON(err.Status, err)
+			return
+		}
+		c.JSON(http.StatusOK, data)
+	}
+}
