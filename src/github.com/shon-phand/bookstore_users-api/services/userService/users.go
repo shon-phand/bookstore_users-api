@@ -5,6 +5,7 @@ import (
 
 	"github.com/shon-phand/bookstore_users-api/domains/errors"
 	"github.com/shon-phand/bookstore_users-api/domains/users"
+	"github.com/shon-phand/bookstore_users-api/utils/encryption"
 )
 
 func GetUser(userId int64) (*users.User, *errors.RestErr) {
@@ -20,7 +21,14 @@ func CreateUser(user users.User) (*users.User, *errors.RestErr) {
 	if err := user.Validate(); err != nil {
 		return nil, err
 	}
+	var password string
 	user.Status = "active"
+	password = user.Password
+	hashedPassword, err := encryption.EncryptPassword(password)
+	if err != nil {
+		return nil, err
+	}
+	user.Password = string(hashedPassword)
 	if err := user.Save(); err != nil {
 		return nil, err
 	}
