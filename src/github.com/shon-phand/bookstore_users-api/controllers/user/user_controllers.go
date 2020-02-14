@@ -34,7 +34,7 @@ func GetUser() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusOK, user)
+		c.JSON(http.StatusOK, user.Marshall(c.GetHeader("x-public") == "true"))
 	}
 }
 
@@ -61,7 +61,7 @@ func CreateUser() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusCreated, result)
+		c.JSON(http.StatusCreated, result.Marshall(c.GetHeader("x-public") == "true"))
 	}
 }
 
@@ -93,7 +93,7 @@ func UpdateUser() gin.HandlerFunc {
 			c.JSON(updateErr.Status, updateErr)
 			return
 		}
-		c.JSON(http.StatusOK, result)
+		c.JSON(http.StatusOK, result.Marshall(c.GetHeader("x-public") == "true"))
 	}
 }
 
@@ -139,6 +139,6 @@ func Search() gin.HandlerFunc {
 			c.JSON(err.Status, err)
 			return
 		}
-		c.JSON(http.StatusOK, data)
+		c.JSON(http.StatusOK, data.Marshall(c.GetHeader("x-public") == "true"))
 	}
 }
