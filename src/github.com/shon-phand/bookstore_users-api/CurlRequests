@@ -1,0 +1,10 @@
+curl -H "Content-Type: application/json" -X POST -d '{"first_name":"shon","last_name":"phand","email":"email@email.com"}' localhost:8000/users
+curl -H "Content-Type: application/json" -X PUT -d '{"first_name":"shon","last_name":"","email":"email@gmail.com"}' localhost:8000/users
+curl -X GET localhost:8000/users/5
+curl -H "Content-Type: application/json" -X PATCH -d '{"last_name":"phand"}' localhost:8000/users/5
+curl -X DELETE localhost:8000/users/5
+
+
+curl -H "Content-Type: application/json" -X POST -d '{"first_name":"shon","last_name":"phand","email":"email@email.com","password":"shon"}' localhost:8000/users
+
+curl -X GET localhost:8000/internal/users?status="active"
