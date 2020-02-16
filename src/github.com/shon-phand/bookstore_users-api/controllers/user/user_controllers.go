@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/shon-phand/bookstore_users-api/domains/errors"
 	"github.com/shon-phand/bookstore_users-api/domains/users"
-	"github.com/shon-phand/bookstore_users-api/services/userService"
+	"github.com/shon-phand/bookstore_users-api/services"
 )
 
 func Ping() gin.HandlerFunc {
@@ -27,8 +27,7 @@ func GetUser() gin.HandlerFunc {
 			c.JSON(err.Status, err)
 			return
 		}
-
-		user, getErr := userService.GetUser(userId)
+		user, getErr := services.UserService.GetUser(userId)
 		if getErr != nil {
 			c.JSON(getErr.Status, getErr)
 			return
@@ -54,7 +53,7 @@ func CreateUser() gin.HandlerFunc {
 
 		}
 		//fmt.Println("callinng CreateUser service")
-		result, saveErr := userService.CreateUser(user)
+		result, saveErr := services.UserService.CreateUser(user)
 		if saveErr != nil {
 
 			c.JSON(saveErr.Status, saveErr)
@@ -87,8 +86,7 @@ func UpdateUser() gin.HandlerFunc {
 		user.ID = userId
 
 		isPartial := c.Request.Method == http.MethodPatch
-
-		result, updateErr := userService.UpdateUser(isPartial, user)
+		result, updateErr := services.UserService.UpdateUser(isPartial, user)
 		if updateErr != nil {
 			c.JSON(updateErr.Status, updateErr)
 			return
@@ -118,7 +116,7 @@ func DeleteUser() gin.HandlerFunc {
 		}
 		user.ID = userId
 
-		_, deleteErr := userService.DeleteUser(user)
+		_, deleteErr := services.UserService.DeleteUser(user)
 		if deleteErr != nil {
 			c.JSON(deleteErr.Status, deleteErr)
 			return
@@ -133,7 +131,7 @@ func Search() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		status := c.Query("status")
 
-		data, err := userService.Search(status)
+		data, err := services.UserService.SearchUser(status)
 
 		if err != nil {
 			c.JSON(err.Status, err)

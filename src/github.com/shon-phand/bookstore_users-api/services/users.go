@@ -1,4 +1,4 @@
-package userService
+package services
 
 import (
 	//"fmt"
@@ -8,16 +8,32 @@ import (
 	"github.com/shon-phand/bookstore_users-api/utils/encryption"
 )
 
-func GetUser(userId int64) (*users.User, *errors.RestErr) {
+type userService struct {
+}
+
+type userServiceInterface interface {
+	GetUser(int64) (*users.User, *errors.RestErr)
+	CreateUser(users.User) (*users.User, *errors.RestErr)
+	UpdateUser(bool, users.User) (*users.User, *errors.RestErr)
+	DeleteUser(users.User) (*users.User, *errors.RestErr)
+	SearchUser(string) (users.Users, *errors.RestErr)
+}
+
+var (
+	UserService userServiceInterface = &userService{}
+)
+
+func (s *userService) GetUser(userId int64) (*users.User, *errors.RestErr) {
 	result := &users.User{ID: userId}
 	if err := result.Get(); err != nil {
 		return nil, err
 	}
+
 	return result, nil
 
 }
 
-func CreateUser(user users.User) (*users.User, *errors.RestErr) {
+func (s *userService) CreateUser(user users.User) (*users.User, *errors.RestErr) {
 	if err := user.Validate(); err != nil {
 		return nil, err
 	}
@@ -36,9 +52,9 @@ func CreateUser(user users.User) (*users.User, *errors.RestErr) {
 
 }
 
-func UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr) {
-
-	current, err := GetUser(user.ID)
+func (s *userService) UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr) {
+	ph := userService{}
+	current, err := ph.GetUser(user.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -65,9 +81,9 @@ func UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr) 
 	return current, nil
 }
 
-func DeleteUser(user users.User) (*users.User, *errors.RestErr) {
-
-	current, err := GetUser(user.ID)
+func (s *userService) DeleteUser(user users.User) (*users.User, *errors.RestErr) {
+	ph := userService{}
+	current, err := ph.GetUser(user.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +94,7 @@ func DeleteUser(user users.User) (*users.User, *errors.RestErr) {
 	return current, nil
 }
 
-func Search(status string) (users.Users, *errors.RestErr) {
+func (s *userService) SearchUser(status string) (users.Users, *errors.RestErr) {
 
 	dao := &users.User{}
 	data, err := dao.FindByStatus(status)
