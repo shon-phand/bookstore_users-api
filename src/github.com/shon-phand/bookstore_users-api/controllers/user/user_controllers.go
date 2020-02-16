@@ -15,7 +15,7 @@ import (
 func Ping() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		c.JSON(http.StatusOK, "pong")
+		c.JSON(http.StatusOK, "pong1")
 	}
 }
 
