@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/shon-phand/bookstore_users-api/domains/errors"
+	"github.com/shon-phand/bookstore_users-api/logger"
 )
 
 type User struct {
@@ -25,9 +26,11 @@ func (user *User) Validate() *errors.RestErr {
 	user.LastName = strings.TrimSpace(strings.ToLower(user.LastName))
 	user.Password = strings.TrimSpace((user.Password))
 	if user.Email == "" {
+		logger.Info(errors.StatusBadRequestError("Invalid email address"), nil)
 		return errors.StatusBadRequestError("Invalid email address")
 	}
 	if user.Password == "" {
+		logger.Info(errors.StatusBadRequestError("Invalid password"), nil)
 		return errors.StatusBadRequestError("Invalid password")
 	}
 	return nil

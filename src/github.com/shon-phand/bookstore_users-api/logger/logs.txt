@@ -1,0 +1,2 @@
+{"level":"error","time":"2020-02-18T21:37:14.063+0530","msg":"service-error","HTTPStatus":500,"Code":"service-error","Message":"error in pinging database","staccktrace":"dial tcp 127.0.0.1:3306: connect: connection refused"}
+{"level":"info","time":"2020-02-18T21:39:40.787+0530","msg":"info-error","HTTPStatus":400,"Code":"bad_request","Message":"userID should be number value"}

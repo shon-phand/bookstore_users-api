@@ -6,6 +6,7 @@ import (
 
 	"github.com/shon-phand/bookstore_users-api/dataSources/mysql/users_db"
 	"github.com/shon-phand/bookstore_users-api/domains/errors"
+	"github.com/shon-phand/bookstore_users-api/logger"
 	"github.com/shon-phand/bookstore_users-api/utils/date_utils"
 )
 
@@ -22,17 +23,19 @@ func (user *User) Get() *errors.RestErr {
 	stmt, err := users_db.Client.Prepare(queryGetUser)
 	//fmt.Println("stmt:", stmt, "err:", err)
 	if err != nil {
-		return errors.StatusInternalServerError("error in preapre stmt : " + err.Error())
+		logger.Error(errors.StatusInternalServerError("database error"), err)
+		return errors.StatusInternalServerError("database error ")
 	}
 	defer stmt.Close()
 
 	result := stmt.QueryRow(user.ID)
-
 	if err := result.Scan(&user.ID, &user.FirstName, &user.LastName, &user.Email, &user.Password, &user.Status, &user.CreationDate); err != nil {
 		if strings.Contains(err.Error(), "no rows in result set") {
+			logger.Info(errors.StatusNotFoundError("users-id not found"), err)
 			return errors.StatusNotFoundError("users-id not found")
 		}
-		return errors.StatusInternalServerError("error in fetching data")
+		logger.Error(errors.StatusInternalServerError("error in fetching data"), err)
+		return errors.StatusInternalServerError("database error")
 	}
 
 	return nil
@@ -43,7 +46,8 @@ func (user *User) Save() *errors.RestErr {
 	stmt, err := users_db.Client.Prepare(queryInsertUser)
 	fmt.Println("stmt:", stmt, "err:", err)
 	if err != nil {
-		return errors.StatusInternalServerError("error in preapre stmt : " + err.Error())
+		logger.Error(errors.StatusInternalServerError("error in preapre stmt"), err)
+		return errors.StatusInternalServerError(" database error")
 	}
 
 	defer stmt.Close()
