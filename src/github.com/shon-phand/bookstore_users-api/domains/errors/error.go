@@ -4,6 +4,11 @@ import (
 	"net/http"
 )
 
+type LogError struct {
+	RestErr RestErr
+	Err     error
+}
+
 type RestErr struct {
 	Message string `json:"message"`
 	Status  int    `json:"status"`

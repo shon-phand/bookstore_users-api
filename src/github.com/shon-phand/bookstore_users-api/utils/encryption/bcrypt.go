@@ -11,5 +11,5 @@ func EncryptPassword(password string) ([]byte, *errors.RestErr) {
 	if err != nil {
 		return nil, errors.StatusInternalServerError("error in encrypting password")
 	}
-	return hashedPassword,nil
+	return hashedPassword, nil
 }

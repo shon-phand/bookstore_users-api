@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/shon-phand/bookstore_users-api/domains/errors"
 	"github.com/shon-phand/bookstore_users-api/domains/users"
+	"github.com/shon-phand/bookstore_users-api/logger"
 	"github.com/shon-phand/bookstore_users-api/services"
 )
 
@@ -24,6 +25,7 @@ func GetUser() gin.HandlerFunc {
 		userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
 		if userErr != nil {
 			err := errors.StatusBadRequestError("userID should be number value")
+			logger.Info(err, nil)
 			c.JSON(err.Status, err)
 			return
 		}
@@ -32,7 +34,6 @@ func GetUser() gin.HandlerFunc {
 			c.JSON(getErr.Status, getErr)
 			return
 		}
-
 		c.JSON(http.StatusOK, user.Marshall(c.GetHeader("x-public") == "true"))
 	}
 }
@@ -45,9 +46,8 @@ func CreateUser() gin.HandlerFunc {
 		err := c.ShouldBindJSON(&user)
 		//fmt.Println("json binded")
 		if err != nil {
-
 			resterr := errors.StatusBadRequestError("invalid request json")
-
+			logger.Info(resterr, nil)
 			c.JSON(resterr.Status, resterr.Message)
 			return
 
@@ -55,7 +55,6 @@ func CreateUser() gin.HandlerFunc {
 		//fmt.Println("callinng CreateUser service")
 		result, saveErr := services.UserService.CreateUser(user)
 		if saveErr != nil {
-
 			c.JSON(saveErr.Status, saveErr)
 			return
 		}
@@ -70,6 +69,7 @@ func UpdateUser() gin.HandlerFunc {
 		userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
 		if userErr != nil {
 			err := errors.StatusBadRequestError("userID should be number value")
+			logger.Info(err, nil)
 			c.JSON(err.Status, err)
 			return
 		}
@@ -80,6 +80,7 @@ func UpdateUser() gin.HandlerFunc {
 		if err != nil {
 
 			resterr := errors.StatusBadRequestError("invalid request json")
+			logger.Info(resterr, nil)
 			c.JSON(resterr.Status, resterr.Message)
 			return
 		}
@@ -101,6 +102,7 @@ func DeleteUser() gin.HandlerFunc {
 		userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
 		if userErr != nil {
 			err := errors.StatusBadRequestError("userID should be number value")
+			logger.Info(err, nil)
 			c.JSON(err.Status, err)
 			return
 		}
@@ -111,6 +113,7 @@ func DeleteUser() gin.HandlerFunc {
 		if err != nil {
 
 			resterr := errors.StatusBadRequestError("invalid request json")
+			logger.Info(resterr, nil)
 			c.JSON(resterr.Status, resterr.Message)
 			return
 		}
