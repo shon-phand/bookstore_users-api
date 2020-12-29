@@ -18,7 +18,7 @@ func init() {
 
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s",
 		"root",
-		"Shon@2544",
+		"mysqlpasswd",
 		"127.0.0.1:3306",
 		"bookstore_users",
 	)
