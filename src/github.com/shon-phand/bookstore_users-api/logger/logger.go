@@ -12,7 +12,7 @@ var (
 
 func init() {
 	logConfig := zap.Config{
-		OutputPaths: []string{"stdout", "/home/shon/Documents/Microservice/golang-microservice/src/github.com/shon-phand/bookstore_users-api/logger/logs.txt"},
+		OutputPaths: []string{"stdout", "./logs.txt"},
 		Level:       zap.NewAtomicLevelAt(zap.InfoLevel),
 		Encoding:    "json",
 		EncoderConfig: zapcore.EncoderConfig{

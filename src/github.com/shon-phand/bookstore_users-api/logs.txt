@@ -1,0 +1,21 @@
+{"level":"error","time":"2021-03-10T17:07:11.149+0530","msg":"service-error","HTTPStatus":500,"Code":"service-error","Message":"error in pinging database","staccktrace":"dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it."}
+{"level":"info","time":"2021-03-11T21:01:09.141+0530","msg":"info-error","HTTPStatus":500,"Code":"service-error","Message":"unable to load configuration file","stacktrace":"open ./webserver_properties.json: The system cannot find the file specified."}
+{"level":"info","time":"2021-03-11T21:08:55.234+0530","msg":"info-error","HTTPStatus":500,"Code":"service-error","Message":"unable to load configuration file","stacktrace":"open webserver_properties.json: The system cannot find the file specified."}
+{"level":"error","time":"2021-03-11T21:23:57.910+0530","msg":"service-error","HTTPStatus":500,"Code":"service-error","Message":"database error","staccktrace":"pq: operator does not exist: integer =?"}
+{"level":"error","time":"2021-03-11T21:28:51.778+0530","msg":"service-error","HTTPStatus":500,"Code":"service-error","Message":"database error","staccktrace":"pq: operator does not exist: integer =?"}
+{"level":"info","time":"2021-03-11T23:33:46.765+0530","msg":"info-error","HTTPStatus":400,"Code":"bad_request","Message":"userID should be number value"}
+{"level":"info","time":"2021-03-12T00:15:35.344+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"users-id not found","stacktrace":"sql: no rows in result set"}
+{"level":"info","time":"2021-03-12T01:41:30.561+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"users-id not found","stacktrace":"sql: no rows in result set"}
+{"level":"info","time":"2021-03-12T03:20:45.183+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"email not found","stacktrace":"sql: no rows in result set"}
+{"level":"info","time":"2021-03-12T03:24:25.984+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"email not found","stacktrace":"sql: no rows in result set"}
+{"level":"info","time":"2021-03-12T03:26:13.286+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"email not found","stacktrace":"sql: no rows in result set"}
+{"level":"info","time":"2021-03-12T03:57:28.087+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"users-id not found","stacktrace":"sql: no rows in result set"}
+{"level":"info","time":"2021-03-13T19:38:35.096+0530","msg":"info-error","HTTPStatus":400,"Code":"bad_request","Message":"userID should be number value"}
+{"level":"info","time":"2021-03-13T19:38:59.683+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"users-id not found","stacktrace":"sql: no rows in result set"}
+{"level":"info","time":"2021-03-13T21:23:26.241+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"users-id not found","stacktrace":"sql: no rows in result set"}
+{"level":"info","time":"2021-03-13T21:40:54.580+0530","msg":"info-error","HTTPStatus":400,"Code":"bad_request","Message":"invalid request json"}
+{"level":"info","time":"2021-03-13T21:40:58.928+0530","msg":"info-error","HTTPStatus":400,"Code":"bad_request","Message":"userID should be number value"}
+{"level":"info","time":"2021-03-13T22:31:22.988+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"email not found","stacktrace":"sql: no rows in result set"}
+{"level":"info","time":"2021-03-13T22:31:48.042+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"email not found","stacktrace":"sql: no rows in result set"}
+{"level":"info","time":"2021-03-13T22:48:27.396+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"email not found","stacktrace":"sql: no rows in result set"}
+{"level":"info","time":"2021-03-13T22:49:47.890+0530","msg":"info-error","HTTPStatus":404,"Code":"not_found","Message":"email not found","stacktrace":"sql: no rows in result set"}

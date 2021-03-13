@@ -3,10 +3,12 @@ module github.com/shon-phand/bookstore_users-api
 go 1.12
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
+	github.com/lib/pq v1.10.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rogpeppe/go-internal v1.5.2 // indirect
 	github.com/rs/zerolog v1.18.0

@@ -1,0 +1,11 @@
+version: "3"
+services:
+    postgres:
+      image: shonphand/postgres_login
+    go-app:
+      image: shonphand/bookstore
+      restart: always
+      depends_on: 
+        - postgres
+      ports:
+        - "8000:8000"

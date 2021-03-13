@@ -1,21 +1,21 @@
 package users
 
 import (
-	"fmt"
 	"strings"
 
-	"github.com/shon-phand/bookstore_users-api/dataSources/mysql/users_db"
+	"github.com/shon-phand/bookstore_users-api/dataSources/postgres/users_db"
 	"github.com/shon-phand/bookstore_users-api/domains/errors"
 	"github.com/shon-phand/bookstore_users-api/logger"
 	"github.com/shon-phand/bookstore_users-api/utils/date_utils"
 )
 
 const (
-	queryInsertUser   = "INSERT INTO users (first_name,last_name,email,password,status,date_created) VALUES( ?,?,?,?,?,? )"
-	queryGetUser      = "SELECT id,first_name,last_name,email,password,status,date_created FROM users where id=? "
-	queryUpdateUser   = "UPDATE  users SET first_name=?,last_name=?,email=? WHERE id=?;"
-	queryDeleteUser   = "DELETE from users WHERE id=?;"
-	queryFindByStatus = "SELECT id,first_name,last_name,email,status,date_created FROM users WHERE status=?;"
+	queryInsertUser     = "INSERT INTO users (first_name,last_name,email,password,status,date_created) VALUES( $1,$2,$3,$4,$5,$6 )"
+	queryGetUser        = "SELECT id,first_name,last_name,email,password,status,date_created FROM users where id=$1 "
+	queryUpdateUser     = "UPDATE  users SET first_name=$1,last_name=$2,email=$3 WHERE id=$4;"
+	queryDeleteUser     = "DELETE from users WHERE id=$1;"
+	queryFindByStatus   = "SELECT id,first_name,last_name,email,status,date_created FROM users WHERE status=$1;"
+	queryGetUserByEmail = "SELECT id,first_name,last_name,email,password,status,date_created FROM users where email=$1 "
 )
 
 func (user *User) Get() *errors.RestErr {
@@ -44,7 +44,7 @@ func (user *User) Get() *errors.RestErr {
 func (user *User) Save() *errors.RestErr {
 
 	stmt, err := users_db.Client.Prepare(queryInsertUser)
-	fmt.Println("stmt:", stmt, "err:", err)
+	//fmt.Println("stmt:", stmt, "err:", err)
 	if err != nil {
 		logger.Error(errors.StatusInternalServerError("error in preapre stmt"), err)
 		return errors.StatusInternalServerError(" database error")
@@ -52,17 +52,37 @@ func (user *User) Save() *errors.RestErr {
 
 	defer stmt.Close()
 	user.CreationDate = date_utils.GetNowString()
-	insertResult, err := stmt.Exec(&user.FirstName, &user.LastName, &user.Email, &user.Password, &user.Status, &user.CreationDate)
+	//fmt.Println("user creating : ", user)
+	_, err = stmt.Exec(&user.FirstName, &user.LastName, &user.Email, &user.Password, &user.Status, &user.CreationDate)
 	//insertResult, err := users_db.Client.Exec(queryInsertUser, user.FirstName, user.LastName, user.Email, user.CreationDate)
 	if err != nil {
 		return errors.StatusInternalServerError("error while saving user : " + err.Error())
 	}
+	//fmt.Println(insertResult)
+	// userId, err := insertResult.LastInsertId()
+	// if err != nil {
+	// 	return errors.StatusInternalServerError("error while saving record" + err.Error())
+	// }
 
-	userId, err := insertResult.LastInsertId()
+	stmt, err = users_db.Client.Prepare(queryGetUserByEmail)
+	//fmt.Println("stmt:", stmt, "err:", err)
 	if err != nil {
-		return errors.StatusInternalServerError("error while saving record" + err.Error())
+		logger.Error(errors.StatusInternalServerError("database error"), err)
+		return errors.StatusInternalServerError("database error ")
 	}
-	user.ID = userId
+	defer stmt.Close()
+
+	result := stmt.QueryRow(user.Email)
+	if err := result.Scan(&user.ID, &user.FirstName, &user.LastName, &user.Email, &user.Password, &user.Status, &user.CreationDate); err != nil {
+		if strings.Contains(err.Error(), "no rows in result set") {
+			logger.Info(errors.StatusNotFoundError("email not found"), err)
+			return errors.StatusNotFoundError("email not found")
+		}
+		logger.Error(errors.StatusInternalServerError("error in fetching data"), err)
+		return errors.StatusInternalServerError("database error")
+	}
+
+	//user.ID = userId
 	return nil
 
 }
@@ -126,5 +146,27 @@ func (user *User) FindByStatus(status string) ([]User, *errors.RestErr) {
 	}
 
 	return results, nil
+
+}
+
+func GetUserByUsername(email string) (*User, *errors.RestErr) {
+
+	stmt, err := users_db.Client.Prepare(queryGetUserByEmail)
+	//fmt.Println("stmt:", stmt, "err:", err)
+	if err != nil {
+		logger.Error(errors.StatusInternalServerError("database error"), err)
+		return nil, errors.StatusInternalServerError("database error ")
+	}
+	defer stmt.Close()
+	var user User
+	//fmt.Println("searching for email : ", email)
+	result := stmt.QueryRow(email)
+	if err := result.Scan(&user.ID, &user.FirstName, &user.LastName, &user.Email, &user.Password, &user.Status, &user.CreationDate); err != nil {
+		logger.Info(errors.StatusNotFoundError("email not found"), err)
+		return nil, errors.StatusNotFoundError("email not found")
+
+	}
+	//fmt.Println(user)
+	return &user, nil
 
 }

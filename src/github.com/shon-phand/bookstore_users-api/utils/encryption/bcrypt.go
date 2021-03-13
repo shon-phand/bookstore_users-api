@@ -7,7 +7,7 @@ import (
 
 func EncryptPassword(password string) ([]byte, *errors.RestErr) {
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), 10)
 	if err != nil {
 		return nil, errors.StatusInternalServerError("error in encrypting password")
 	}

@@ -133,7 +133,6 @@ func DeleteUser() gin.HandlerFunc {
 func Search() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		status := c.Query("status")
-
 		data, err := services.UserService.SearchUser(status)
 
 		if err != nil {
@@ -141,5 +140,7 @@ func Search() gin.HandlerFunc {
 			return
 		}
 		c.JSON(http.StatusOK, data.Marshall(c.GetHeader("x-public") == "true"))
+		return
+
 	}
 }
