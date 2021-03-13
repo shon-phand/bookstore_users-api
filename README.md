@@ -19,7 +19,8 @@
 - GET /users              : get/serach/retrieve users with status (e.g /users?status=active) (jwt authentication reuqired)
 
 
-- postgres details
+postgres details
+
  (
 	host     = "postgres"
 	port     = 5432
@@ -28,7 +29,7 @@
 	dbname   = "postgres"
 )
 
-table name users 
+Query to create inital table
 
 CREATE TABLE users (
 id SERIAL  PRIMARY KEY NOT NULL UNIQUE,
