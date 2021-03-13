@@ -1,5 +1,3 @@
-CREATE DATABASE postgres;
-\c postgres;
 CREATE TABLE users (
 id SERIAL  PRIMARY KEY NOT NULL UNIQUE,
 first_name varchar(50),
