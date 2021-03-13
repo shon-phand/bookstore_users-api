@@ -11,6 +11,7 @@ var (
 )
 
 func StartApp() {
+
 	fmt.Println("starting webserver")
 	mapUrls()
 	err := r.Run(":8000")

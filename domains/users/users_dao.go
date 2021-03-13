@@ -1,10 +1,9 @@
 package users
 
 import (
-	"fmt"
 	"strings"
 
-	"github.com/shon-phand/bookstore_users-api/dataSources/mysql/users_db"
+	"github.com/shon-phand/bookstore_users-api/dataSources/postgres/users_db"
 	"github.com/shon-phand/bookstore_users-api/domains/errors"
 	"github.com/shon-phand/bookstore_users-api/logger"
 	"github.com/shon-phand/bookstore_users-api/utils/date_utils"

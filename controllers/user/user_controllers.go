@@ -7,7 +7,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/shon-phand/bookstore_users-api/controllers/login"
 	"github.com/shon-phand/bookstore_users-api/domains/errors"
 	"github.com/shon-phand/bookstore_users-api/domains/users"
 	"github.com/shon-phand/bookstore_users-api/logger"
@@ -134,22 +133,14 @@ func DeleteUser() gin.HandlerFunc {
 func Search() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		status := c.Query("status")
-		// check for the  jwt authentocation
+		data, err := services.UserService.SearchUser(status)
 
-		isValid := login.ValidateToken(c)
-		if isValid {
-			//fmt.Println("valid cookie")
-			login.RefreshToken(c)
-			data, err := services.UserService.SearchUser(status)
-
-			if err != nil {
-				c.JSON(err.Status, err)
-				return
-			}
-			c.JSON(http.StatusOK, data.Marshall(c.GetHeader("x-public") == "true"))
+		if err != nil {
+			c.JSON(err.Status, err)
 			return
 		}
-		c.JSON(401, "token not valid")
+		c.JSON(http.StatusOK, data.Marshall(c.GetHeader("x-public") == "true"))
+		return
 
 	}
 }
