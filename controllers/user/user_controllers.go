@@ -3,7 +3,6 @@ package user
 import (
 	//"fmt"
 
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -139,7 +138,8 @@ func Search() gin.HandlerFunc {
 
 		isValid := login.ValidateToken(c)
 		if isValid {
-			fmt.Println("valid cookie")
+			//fmt.Println("valid cookie")
+			login.RefreshToken(c)
 			data, err := services.UserService.SearchUser(status)
 
 			if err != nil {

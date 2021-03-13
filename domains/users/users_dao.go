@@ -160,14 +160,14 @@ func GetUserByUsername(email string) (*User, *errors.RestErr) {
 	}
 	defer stmt.Close()
 	var user User
-	fmt.Println("searching for email : ", email)
+	//fmt.Println("searching for email : ", email)
 	result := stmt.QueryRow(email)
 	if err := result.Scan(&user.ID, &user.FirstName, &user.LastName, &user.Email, &user.Password, &user.Status, &user.CreationDate); err != nil {
 		logger.Info(errors.StatusNotFoundError("email not found"), err)
 		return nil, errors.StatusNotFoundError("email not found")
 
 	}
-	fmt.Println(user)
+	//fmt.Println(user)
 	return &user, nil
 
 }
